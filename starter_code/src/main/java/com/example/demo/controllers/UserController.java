@@ -18,6 +18,8 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -38,7 +40,13 @@ public class UserController {
 		User user = userRepository.findByUsername(username);
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
-	
+
+//	@GetMapping("/")
+//	public ResponseEntity<List<User>> findAllUsers() {
+//		List<User> users = userRepository.findAll();
+//		return users == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(users);
+//	}
+
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		User user = new User();
