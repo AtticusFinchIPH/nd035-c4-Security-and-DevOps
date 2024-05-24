@@ -36,7 +36,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
-		log.info("username set with :" + user.getUsername());
+		log.info("username set with: " + user.getUsername());
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		user.setCart(cart);
@@ -44,19 +44,19 @@ public class UserController {
 		try {
 			if (createUserRequest.getPassword().length() < 7 ||
 					!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-				log.error("Error during password creation");
+				log.error("Password creation failed");
 				log.debug("Either length is less than 7 or pass and conf pass do not match");
 				//System.out.println("Error - Either length is less than 7 or pass and conf pass do not match. Unable to create ",
 				//		createUserRequest.getUsername());
 				return ResponseEntity.badRequest().build();
 			}
 		}catch (NullPointerException e){
-			log.debug("Null value in either password or confirm password");
+			log.debug("Either password or confirm password is null");
 			return ResponseEntity.badRequest().build();
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
-		log.info("user successfully saved");
+		log.info("User successfully saved");
 		return ResponseEntity.ok(user);
 	}
 	@GetMapping("/{username}")
